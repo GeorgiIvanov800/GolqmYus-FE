@@ -2,15 +2,16 @@
 import { ref } from 'vue';
 import Menubar from 'primevue/menubar';
 import { Button } from 'primevue';
+import LoginComponent from './LoginComponent.vue';
 //Control the visibility of the LoginComponent
 const loginVisible = ref(false);
 
 const menuItems = [
-    { label: 'Начало', icon: 'pi pi-home', },
-    { label: 'Албуми', icon: 'pi pi-headphones', },
-    { label: 'Турнета', icon: 'pi pi-calendar', },
-    { label: 'Изпълнители', icon: 'pi pi-prime', },
-    { label: 'За нас', icon: 'pi pi-info-circle', },
+    { label: 'Начало', icon: 'pi pi-home custom-icon', },
+    { label: 'Албуми', icon: 'pi pi-headphones custom-icon', },
+    { label: 'Турнета', icon: 'pi pi-calendar custom-icon', },
+    { label: 'Изпълнители', icon: 'pi pi-prime custom-icon', },
+    { label: 'За нас', icon: 'pi pi-info-circle custom-icon', },
 ];
 
 </script>
@@ -23,24 +24,20 @@ const menuItems = [
         </template>
         <template #end>
             <div class="flex items-center gap-2">
-                <Button label="Login/Register" icon="pi pi-user" @click="loginVisible = true" />
+                <LoginComponent />
             </div>
         </template>
     </Menubar>
 </template>
 
 <style scoped>
-.site-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-}
-
 .logo {
-    height: 50px;
+    height: 45px;
     margin-right: 10px;
     border-radius: 15px;
+}
+
+::v-deep(.custom-icon) {
+    font-size: 1.7rem;
 }
 </style>
