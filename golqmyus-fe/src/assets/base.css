@@ -72,3 +72,22 @@
     --p-text-hover-muted-color: var(--p-surface-300);
   }
 }
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+body {
+  background: linear-gradient(270deg, #1e1e2f, #3e3e5b, #0d0d16);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+  color: white;
+}
