@@ -33,7 +33,8 @@ const visible = ref(false);
                     <div class="text-center mt-4">
                         <p class="text-primary-50 text-lg">
                             Don't have an account?
-                            <router-link to="/register" class="text-blue-400 underline hover:text-blue-200">
+                            <router-link to="/register" class="text-blue-400 underline hover:text-blue-200"
+                                @click="visible = false">
                                 Create one
                             </router-link>
                         </p>
