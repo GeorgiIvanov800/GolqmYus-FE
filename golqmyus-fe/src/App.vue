@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import HeaderComponent from './components/HeaderComponent.vue';
 import FooterComponent from './components/FooterComponent.vue';
 import LoginComponent from './components/LoginComponent.vue';
-
+import { Toast } from 'primevue';
 </script>
 
 <template>
@@ -14,6 +14,7 @@ import LoginComponent from './components/LoginComponent.vue';
       <RouterView />
     </main>
     <FooterComponent />
+    <Toast />
   </div>
 
 </template>

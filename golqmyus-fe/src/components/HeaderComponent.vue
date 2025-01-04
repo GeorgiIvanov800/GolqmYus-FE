@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import Menubar from 'primevue/menubar';
-import { Button } from 'primevue';
 import LoginComponent from './LoginComponent.vue';
-//Control the visibility of the LoginComponent
-const loginVisible = ref(false);
+import { useRoute, useRouter } from 'vue-router';
+
+
+const router = useRouter();
 
 const menuItems = [
-    { label: 'Начало', icon: 'pi pi-home custom-icon', },
+    { label: 'Начало', icon: 'pi pi-home custom-icon', command: () => router.push('/') },
     { label: 'Албуми', icon: 'pi pi-headphones custom-icon', },
     { label: 'Турнета', icon: 'pi pi-calendar custom-icon', },
     { label: 'Изпълнители', icon: 'pi pi-prime custom-icon', },

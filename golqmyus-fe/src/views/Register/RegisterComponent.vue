@@ -1,0 +1,147 @@
+<script setup lang="ts">
+import { useToast } from 'primevue';
+import { zodResolver } from '@primevue/forms/resolvers/zod';
+import { z } from 'zod';
+import { reactive } from 'vue';
+import { InputText, Message, Button } from 'primevue'
+import { Form, FormField, type FormSubmitEvent } from '@primevue/forms';
+import Password from 'primevue/password';
+import type { UserRegister } from './Types/UserRegister';
+
+
+const toast = useToast();
+
+const initialValues = reactive<UserRegister>({
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    userName: "",
+});
+
+const resolver = zodResolver(
+    z
+        .object({
+            email: z.string().email("Invalid email address."),
+            firstName: z.string().min(1, "First Name is required."),
+            lastName: z.string().min(1, "Last Name is required."),
+            userName: z.string().min(1, "Username is required."),
+            password: z.string().min(6, "Password must be at least 6 characters."),
+            confirmPassword: z.string().min(6, "Confirm Password is required."),
+        })
+        .refine((data) => data.password === data.confirmPassword, {
+            message: "Passwords must match.",
+            path: ["confirmPassword"], // Highlight confirmPassword on mismatch
+        })
+);
+
+const onFormSubmit = (event: FormSubmitEvent) => {
+    const values = event.values as UserRegister;
+
+    console.log("Form submitted:", values);
+    toast.add({
+        severity: "success",
+        summary: "Success",
+        detail: "User registered successfully!",
+    });
+};
+</script>
+
+<template>
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="flex flex-col px-6 py-4 gap-4 rounded-xl w-full max-w-lg"
+            style="background-image: radial-gradient(circle at left top, var(--p-primary-400), var(--p-primary-700))">
+            <Form :initialValues="initialValues" :resolver="resolver" @submit="onFormSubmit"
+                class="flex flex-col gap-3">
+                <!-- Email -->
+                <FormField v-slot="$field" name="email" class="flex flex-col gap-1">
+                    <label for="email" class="text-[#0B3D2E] font-semibold">Email</label>
+                    <InputText id="email" type="email" placeholder="Enter your email" v-model="$field.value"
+                        class="!bg-white/20 !border-0 !p-3 !text-primary-50 w-full" />
+                    <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
+                        {{ $field.error?.message }}
+                    </Message>
+                </FormField>
+
+                <!-- First Name -->
+                <FormField v-slot="$field" name="firstName" class="flex flex-col gap-1">
+                    <label for="firstName" class="text-[#0B3D2E] font-semibold">First Name</label>
+                    <InputText id="firstName" type="text" placeholder="Enter your first name" v-model="$field.value"
+                        class="!bg-white/20 !border-0 !p-3 !text-primary-50 w-full" />
+                    <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
+                        {{ $field.error?.message }}
+                    </Message>
+                </FormField>
+
+                <!-- Last Name -->
+                <FormField v-slot="$field" name="lastName" class="flex flex-col gap-1">
+                    <label for="lastName" class="text-[#0B3D2E] font-semibold">Last Name</label>
+                    <InputText id="lastName" type="text" placeholder="Enter your last name" v-model="$field.value"
+                        class="!bg-white/20 !border-0 !p-3 !text-primary-50 w-full" />
+                    <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
+                        {{ $field.error?.message }}
+                    </Message>
+                </FormField>
+
+                <!-- Username -->
+                <FormField v-slot="$field" name="userName" class="flex flex-col gap-1">
+                    <label for="userName" class="text-[#0B3D2E] font-semibold">Username</label>
+                    <InputText id="userName" type="text" placeholder="Enter your username" v-model="$field.value"
+                        class="!bg-white/20 !border-0 !p-3 !text-primary-50 w-full" />
+                    <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
+                        {{ $field.error?.message }}
+                    </Message>
+                </FormField>
+
+                <!-- Password -->
+                <FormField v-slot="$field" name="password" class="flex flex-col gap-1">
+                    <label for="password" class="text-[#0B3D2E] font-semibold">Password</label>
+                    <Password id="password" placeholder="Enter your password" v-model="$field.value" toggleMask
+                        :inputStyle="{ width: '100%' }" />
+                    <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
+                        {{ $field.error?.message }}
+                    </Message>
+                </FormField>
+
+                <!-- Confirm Password -->
+                <FormField v-slot="$field" name="confirmPassword" class="flex flex-col gap-1">
+                    <label for="confirmPassword" class="text-[#0B3D2E] font-semibold">Confirm Password</label>
+                    <Password id="confirmPassword" placeholder="Confirm your password" v-model="$field.value" toggleMask
+                        :inputStyle="{ width: '100%' }" />
+                    <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
+                        {{ $field.error?.message }}
+                    </Message>
+                </FormField>
+
+                <!-- Submit Button -->
+                <Button type="submit" label="Register"
+                    class="!p-3 w-full !text-primary-50 !border !border-white/30 hover:!bg-white/10" />
+            </Form>
+
+            <div class="text-center mt-2">
+                <p class="text-primary-50 text-base">
+                    Already have an account?
+                    <router-link to="/" class="text-blue-400 underline hover:text-blue-200">
+                        Login here
+                    </router-link>
+                </p>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style scoped>
+/* Match the input field inside the Password component */
+::v-deep(.p-password-input) {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    /* Match other input fields */
+    border: none !important;
+    /* Remove borders */
+    padding: 0.79rem !important;
+    /* Consistent padding */
+    color: var(--p-primary-50) !important;
+    /* Consistent text color */
+    width: 100%;
+    /* Full width */
+}
+</style>

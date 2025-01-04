@@ -33,9 +33,9 @@ const visible = ref(false);
                     <div class="text-center mt-4">
                         <p class="text-primary-50 text-lg">
                             Don't have an account?
-                            <a href="#" class="text-blue-400 underline hover:text-blue-200" @click="toggleRegister">
+                            <router-link to="/register" class="text-blue-400 underline hover:text-blue-200">
                                 Create one
-                            </a>
+                            </router-link>
                         </p>
                     </div>
                 </div>
