@@ -1,32 +1,21 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import HeaderComponent from './components/HeaderComponent.vue';
 import FooterComponent from './components/FooterComponent.vue';
-import LoginComponent from './components/LoginComponent.vue';
-
+import { Toast } from 'primevue';
 </script>
 
 <template>
 
-  <div class="app-container">
+  <div class="flex flex-col min-h-screen">
     <HeaderComponent />
-    <main class="main-content">
+    <main class="flex-1 pt-20">
       <RouterView />
     </main>
     <FooterComponent />
+    <Toast />
   </div>
 
 </template>
 
-<style scoped>
-.app-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-
-}
-
-.main-content {
-  flex: 1;
-}
-</style>
+<style scoped></style>
