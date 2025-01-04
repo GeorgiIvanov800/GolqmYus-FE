@@ -17,17 +17,18 @@ const menuItems = [
 </script>
 
 <template>
-
-    <Menubar :model="menuItems">
-        <template #start>
-            <img src="../assets/icons/golqmYusLogo.jpg" alt="GolqmYus Logo" class="logo" />
-        </template>
-        <template #end>
-            <div class="flex items-center gap-2">
-                <LoginComponent />
-            </div>
-        </template>
-    </Menubar>
+    <header class="fixed top-0 left-0 w-full z-50">
+        <Menubar :model="menuItems">
+            <template #start>
+                <img src="../assets/icons/golqmYusLogo.jpg" alt="GolqmYus Logo" class="logo" />
+            </template>
+            <template #end>
+                <div class="flex items-center gap-2">
+                    <LoginComponent />
+                </div>
+            </template>
+        </Menubar>
+    </header>
 </template>
 
 <style scoped>

@@ -24,45 +24,33 @@ const formatDate = computed(() => {
 </script>
 
 <template>
-    <div class="album-book relative w-48 h-64 border rounded-lg shadow-lg overflow-hidden cursor-pointer"
-        @click="toggleOpen">
-        <!-- Book Cover -->
-        <div v-if="!isOpen" class="book-cover flex items-center justify-center bg-gray-800 text-white text-center p-4"
-            :style="{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }">
-            <h3 class="text-lg font-bold bg-black/50 p-2 rounded">{{ title }}</h3>
+    <div class="album-book text-center">
+        <!-- Book Cover (Full Image) -->
+        <div class="relative w-64 h-80 bg-gray-200 rounded-lg overflow-hidden shadow-lg"
+            :style="{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }"
+            @click="toggleOpen">
+            <!-- Optional overlay on hover -->
+            <div class="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity"></div>
         </div>
 
-        <!-- Opened Book -->
-        <div v-else class="book-content bg-white p-4">
-            <h3 class="text-xl font-bold">{{ title }}</h3>
-            <p class="text-sm text-gray-500">{{ formatDate }}</p>
-            <p class="text-sm font-medium text-gray-700 mb-4">{{ genre }}</p>
-            <p class="text-sm text-gray-600 mb-2">{{ description }}</p>
-            <ul class="tracklist list-disc pl-5">
-                <li v-for="(track, index) in tracks" :key="index" class="text-sm text-gray-800">
-                    {{ track }}
-                </li>
-            </ul>
-        </div>
+        <!-- Album Name Below -->
+        <h3 class="mt-4 text-lg font-bold text-gray-800">{{ title }}</h3>
     </div>
 </template>
 
 <style scoped>
 .album-book {
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    cursor: pointer;
 }
 
-.album-book:hover {
+.album-book img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.album-book:hover img {
     transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.book-cover {
-    transition: opacity 0.3s ease-in-out;
-}
-
-.book-content {
-    overflow-y: auto;
-    max-height: 100%;
+    transition: transform 0.3s ease-in-out;
 }
 </style>

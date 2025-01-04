@@ -13,7 +13,7 @@ const router = createRouter({
       component: HomeView,
     },
     { path: '/register', name: 'register', component: RegisterComponent },
-    { path: '/albums', name: 'albums', component: AlbumBook },
+    { path: '/albums', name: 'albums', component: AlbumComponent },
   ],
 })
 
