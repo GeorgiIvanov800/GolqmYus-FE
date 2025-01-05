@@ -24,9 +24,12 @@ const formatDate = computed(() => {
 </script>
 
 <template>
-    <div class="album-book text-center">
-        <!-- Book Cover (Full Image) -->
-        <div class="relative w-64 h-80 bg-gray-200 rounded-lg overflow-hidden shadow-lg"
+    <div class="album-book relative text-center">
+        <!-- Book Spine -->
+        <div class="absolute top-0 left-0 w-8 h-80 bg-gray-800 shadow-inner rounded-l-lg"></div>
+
+        <!-- Book Cover -->
+        <div class="relative w-64 h-80 bg-gray-200 rounded-r-lg overflow-hidden shadow-lg ml-8"
             :style="{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }"
             @click="toggleOpen">
             <!-- Optional overlay on hover -->
@@ -41,16 +44,23 @@ const formatDate = computed(() => {
 <style scoped>
 .album-book {
     cursor: pointer;
+    display: inline-block;
+    perspective: 1000px;
+    /* Enables 3D effects */
 }
 
-.album-book img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-}
-
-.album-book:hover img {
-    transform: scale(1.05);
+.album-book:hover .relative {
+    transform: scale(1.03);
+    /* Slight zoom on hover */
     transition: transform 0.3s ease-in-out;
+}
+
+.album-book .absolute {
+    transition: all 0.3s ease;
+}
+
+.album-book:hover .absolute {
+    transform: translateX(-2px);
+    /* Simulates book shifting slightly */
 }
 </style>
