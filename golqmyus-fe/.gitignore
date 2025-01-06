@@ -9,12 +9,12 @@ lerna-debug.log*
 
 mock
 node_modules
+src/assets/primevue
 .DS_Store
 dist
 dist-ssr
 coverage
 *.local
-/home/georgiivanov/Projects/GolqmYus-FE/golqmyus-fe/src/assets/primevue
 /cypress/videos/
 /cypress/screenshots/
 
