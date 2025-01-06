@@ -14,7 +14,7 @@ dist
 dist-ssr
 coverage
 *.local
-
+/home/georgiivanov/Projects/GolqmYus-FE/golqmyus-fe/src/assets/primevue
 /cypress/videos/
 /cypress/screenshots/
 

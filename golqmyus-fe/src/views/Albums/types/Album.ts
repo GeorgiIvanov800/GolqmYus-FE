@@ -4,5 +4,6 @@ export interface Album {
   genre: string
   description: string
   imageUrl: string
+  isOpen?: boolean
   tracks: string[]
 }
