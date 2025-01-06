@@ -48,17 +48,19 @@ const responsiveOptions = ref<ResponsiveOption[]>([
 </script>
 
 <template>
-
-    <div class="card flex justify-center">
-        <Carousel :value="pictures" :numVisible="3" :numScroll="1" :responsiveOptions="responsiveOptions" circular
-            :autoplayInterval="3000">
-            <template #item="slotProps">
-                <div class="border border-surface-200 dark:border-surface-700 rounded m-1 p-2 bg-gray-200 shadow-md">
-                    <div class="w-full h-full flex items-center justify-center">
-                        <img :src="slotProps.data.src" :alt="slotProps.data.alt" class="w-full rounded" />
+    <div class="home-container w-full flex justify-center py-8 md:py-12 lg:py-16 px-4 md:px-8">
+        <div class="card flex justify-center">
+            <Carousel :value="pictures" :numVisible="3" :numScroll="1" :responsiveOptions="responsiveOptions" circular
+                :autoplayInterval="3000">
+                <template #item="slotProps">
+                    <div
+                        class="border border-surface-200 dark:border-surface-700 rounded m-1 p-2 bg-gray-200 shadow-md">
+                        <div class="w-full h-full flex items-center justify-center">
+                            <img :src="slotProps.data.src" :alt="slotProps.data.alt" class="w-full rounded" />
+                        </div>
                     </div>
-                </div>
-            </template>
-        </Carousel>
+                </template>
+            </Carousel>
+        </div>
     </div>
 </template>
