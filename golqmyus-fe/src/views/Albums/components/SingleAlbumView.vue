@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { mockAlbums } from '@/mock/albums';
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 
@@ -8,6 +9,28 @@ const album = mockAlbums.find((a) => a.id === route.params.id);
 
 if (!album) {
     throw new Error('Album not found!');
+}
+
+// Reactive state to track visibility of lyrics for each track
+const lyricsVisible = ref<boolean[]>([]);
+
+// Toggle lyrics visibility for a track
+function toggleLyrics(index: number) {
+    // Initialize the array if not set
+    if (!lyricsVisible.value[index]) {
+        lyricsVisible.value[index] = false;
+    }
+    lyricsVisible.value[index] = !lyricsVisible.value[index];
+}
+
+// Mock function to get lyrics (replace with actual data later)
+function getLyrics(index: number): string {
+    const mockLyrics = [
+        "Lyrics for Track 1 go here...",
+        "Lyrics for Track 2 go here...",
+        "Lyrics for Track 3 go here...",
+    ];
+    return mockLyrics[index] || "No lyrics available.";
 }
 </script>
 <template>
@@ -29,8 +52,18 @@ if (!album) {
             <!-- Tracklist -->
             <ul class="space-y-4 w-full">
                 <li v-for="(track, index) in album.tracks" :key="index"
-                    class="bg-gray-800 text-white rounded-lg px-4 py-2 shadow-md hover:bg-gray-700 cursor-pointer flex items-center justify-between">
-                    <span>{{ track }}</span>
+                    class="bg-gray-800 text-white rounded-lg px-4 py-2 shadow-md hover:bg-gray-700 cursor-pointer flex flex-col items-start">
+                    <div class="flex justify-between w-full items-center">
+                        <span>{{ track }}</span>
+                        <button @click="toggleLyrics(index)"
+                            class="bg-blue-500 text-white px-2 py-1 rounded shadow hover:bg-blue-600 text-sm">
+                            Show Lyrics
+                        </button>
+                    </div>
+                    <!-- Lyrics Display -->
+                    <p v-if="lyricsVisible[index]" class="mt-2 text-gray-400 text-sm">
+                        {{ getLyrics(index) }}
+                    </p>
                 </li>
             </ul>
         </div>
