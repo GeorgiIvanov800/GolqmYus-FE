@@ -5,7 +5,8 @@ import { onMounted, ref } from 'vue';
 import type { Track } from '../types/Track';
 import apiClient from '@/config/axios';
 import type { Album } from '../types/Album';
-import type { string } from 'zod';
+import LyricsView from './LyricsView.vue';
+
 
 const tracks = ref<Track[]>();
 const album = ref<Album>();
@@ -25,6 +26,7 @@ const fetchAlbumAndTracks = async () => {
         ]);
         album.value = albumResponse.data;
         tracks.value = tracksResponse.data;
+        console.log(tracks.value);
     } catch (error) {
         console.error('Error fetching album or tracks:', error);
     }
@@ -71,7 +73,7 @@ function closeLyrics() {
 
 
             <ul class="space-y-4 w-full">
-                <li v-for="(track, index) in tracks" :key="index"
+                <li v-for="track in tracks" :key="track.id"
                     class="bg-gray-800 text-white rounded-lg px-4 py-2 shadow-md hover:bg-gray-700 cursor-pointer flex items-center justify-between">
                     <span>{{ track.title }}</span>
                     <Button @click="toggleLyrics(track.title)" icon="pi pi-align-justify" label="Текст" />
@@ -80,17 +82,11 @@ function closeLyrics() {
         </div>
     </div>
 
-
     <transition name="fade-slide">
-        <div v-if="showLyrics"
-            class="lyrics-container flex flex-col items-start justify-start w-full lg:w-1/2 bg-gray-800 shadow-lg p-6 relative">
-            <Button icon="pi pi-times" severity="danger" rounded aria-label="Cancel" @click="closeLyrics"
-                class="absolute top-4 right-4" />
-            <h2 class="text-xl font-bold text-white mb-4">Lyrics</h2>
-            <p class="text-gray-300">{{ selectedLyrics }}</p>
+        <div v-if="showLyrics">
+            <LyricsView :lyrics="selectedLyrics" @close="closeLyrics" />
         </div>
     </transition>
-
 </template>
 
 
