@@ -1,79 +1,117 @@
 <script setup lang="ts">
-import { mockAlbums } from '@/mock/albums';
-import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { Button } from 'primevue';
+import { onMounted, ref } from 'vue';
+import type { Track } from '../types/Track';
+import apiClient from '@/config/axios';
+import type { Album } from '../types/Album';
+import LyricsView from './LyricsView.vue';
 
+
+const tracks = ref<Track[]>();
+const album = ref<Album>();
 
 const route = useRoute();
-const album = mockAlbums.find((a) => a.id === route.params.id);
+const albumId = Number(route.params.id);
 
-if (!album) {
-    throw new Error('Album not found!');
-}
+onMounted(() => {
+    fetchAlbumAndTracks();
+})
 
-// Reactive state to track visibility of lyrics for each track
-const lyricsVisible = ref<boolean[]>([]);
-
-// Toggle lyrics visibility for a track
-function toggleLyrics(index: number) {
-    // Initialize the array if not set
-    if (!lyricsVisible.value[index]) {
-        lyricsVisible.value[index] = false;
+const fetchAlbumAndTracks = async () => {
+    try {
+        const [albumResponse, tracksResponse] = await Promise.all([
+            apiClient.get(`/albums/${albumId}`),
+            apiClient.get(`/albums/${albumId}/tracks`)
+        ]);
+        album.value = albumResponse.data;
+        tracks.value = tracksResponse.data;
+        console.log(tracks.value);
+    } catch (error) {
+        console.error('Error fetching album or tracks:', error);
     }
-    lyricsVisible.value[index] = !lyricsVisible.value[index];
 }
 
-// Mock function to get lyrics (replace with actual data later)
-function getLyrics(index: number): string {
-    const mockLyrics = [
-        "Lyrics for Track 1 go here...",
-        "Lyrics for Track 2 go here...",
-        "Lyrics for Track 3 go here...",
-    ];
-    return mockLyrics[index] || "No lyrics available.";
+const showLyrics = ref(false);
+const selectedLyrics = ref<string>('');
+
+
+
+function toggleLyrics(trackTitle: string) {
+    const track = tracks.value?.find(t => t.title === trackTitle);
+
+    if (selectedLyrics.value === track?.fullLyricsText && showLyrics.value) {
+        showLyrics.value = false;
+        selectedLyrics.value = '';
+    } else {
+        showLyrics.value = true;
+        selectedLyrics.value = track?.fullLyricsText || "";
+    }
 }
+
+function closeLyrics() {
+    showLyrics.value = false;
+    selectedLyrics.value = '';
+}
+
 </script>
 <template>
     <div
-        class="single-album-view-container flex flex-col lg:flex-row items-center justify-center gap-12 px-8 py-16 bg-gradient-to-b from-gray-900 to-black">
-        <!-- Album Cover -->
+        class="flex flex-col lg:flex-row items-center justify-start gap-12 px-8 py-16 bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg">
         <div class="album-cover w-64 h-64 lg:w-72 lg:h-72 flex-shrink-0">
-            <img :src="album.imageUrl" alt="Album Cover" class="w-full h-full rounded-lg shadow-lg object-cover" />
+            <img :src="album?.imageUrl" alt="Album Cover" class="w-full h-full rounded-lg shadow-lg object-cover" />
         </div>
 
-        <!-- Album Info and Tracklist -->
         <div class="tracklist flex flex-col items-center lg:items-start">
-            <!-- Album Title and Release Date -->
             <div class="mb-6 text-center lg:text-left">
-                <h1 class="text-4xl font-bold text-white">{{ album.title }}</h1>
-                <p class="text-gray-400 mt-2 text-lg">Released: {{ album.releaseDate }}</p>
+                <h1 class="text-4xl font-bold text-white">{{ album?.title }}</h1>
+                <p class="text-gray-400 mt-2 text-lg">Издаден: {{ album?.releaseDate }}</p>
             </div>
 
-            <!-- Tracklist -->
+
             <ul class="space-y-4 w-full">
-                <li v-for="(track, index) in album.tracks" :key="index"
-                    class="bg-gray-800 text-white rounded-lg px-4 py-2 shadow-md hover:bg-gray-700 cursor-pointer flex flex-col items-start">
-                    <div class="flex justify-between w-full items-center">
-                        <span>{{ track }}</span>
-                        <button @click="toggleLyrics(index)"
-                            class="bg-blue-500 text-white px-2 py-1 rounded shadow hover:bg-blue-600 text-sm">
-                            Show Lyrics
-                        </button>
-                    </div>
-                    <!-- Lyrics Display -->
-                    <p v-if="lyricsVisible[index]" class="mt-2 text-gray-400 text-sm">
-                        {{ getLyrics(index) }}
-                    </p>
+                <li v-for="track in tracks" :key="track.id"
+                    class="bg-gray-800 text-white rounded-lg px-4 py-2 shadow-md hover:bg-gray-700 cursor-pointer flex items-center justify-between">
+                    <span>{{ track.id + '. ' + track.title + ' ' + `(${track.duration})` }}</span>
+                    <Button @click="toggleLyrics(track.title)" icon="pi pi-align-justify" label="Текст" />
                 </li>
             </ul>
         </div>
     </div>
+
+    <transition name="fade-slide">
+        <div v-if="showLyrics">
+            <LyricsView :lyrics="selectedLyrics" @close="closeLyrics" />
+        </div>
+    </transition>
 </template>
 
 
 <style scoped>
-.single-album-view-container {
-    background-color: #1a1a1a;
-    border-radius: 8px;
+.lyrics-container {
+    height: auto;
+
+}
+
+@media (min-width: 1024px) {
+    .lyrics-container {
+        height: 26.8em;
+
+    }
+}
+
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+    transition: all 0.3s ease;
+}
+
+.fade-slide-enter-from {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.fade-slide-leave-to {
+    opacity: 0;
+    transform: translateX(20px);
 }
 </style>
