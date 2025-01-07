@@ -32,8 +32,8 @@ const fetchAlbumAndTracks = async () => {
     }
 }
 
-const showLyrics = ref(false); // Controls visibility of the lyrics container
-const selectedLyrics = ref<string>(''); // Stores the lyrics for the selected track
+const showLyrics = ref(false);
+const selectedLyrics = ref<string>('');
 
 
 
@@ -41,31 +41,28 @@ function toggleLyrics(trackTitle: string) {
     const track = tracks.value?.find(t => t.title === trackTitle);
 
     if (selectedLyrics.value === track?.fullLyricsText && showLyrics.value) {
-        showLyrics.value = false; // Close the lyrics if the same track is clicked again
+        showLyrics.value = false;
         selectedLyrics.value = '';
     } else {
         showLyrics.value = true;
-        selectedLyrics.value = track?.fullLyricsText || ""; // Set the lyrics for the selected track
+        selectedLyrics.value = track?.fullLyricsText || "";
     }
 }
 
 function closeLyrics() {
-    showLyrics.value = false; // Hide the lyrics container
-    selectedLyrics.value = ''; // Clear the selected lyrics
+    showLyrics.value = false;
+    selectedLyrics.value = '';
 }
 
 </script>
 <template>
     <div
         class="flex flex-col lg:flex-row items-center justify-start gap-12 px-8 py-16 bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg">
-        <!-- Album Cover -->
         <div class="album-cover w-64 h-64 lg:w-72 lg:h-72 flex-shrink-0">
             <img :src="album?.imageUrl" alt="Album Cover" class="w-full h-full rounded-lg shadow-lg object-cover" />
         </div>
 
-        <!-- Album Info and Tracklist -->
         <div class="tracklist flex flex-col items-center lg:items-start">
-            <!-- Album Title and Release Date -->
             <div class="mb-6 text-center lg:text-left">
                 <h1 class="text-4xl font-bold text-white">{{ album?.title }}</h1>
                 <p class="text-gray-400 mt-2 text-lg">Издаден: {{ album?.releaseDate }}</p>
@@ -75,7 +72,7 @@ function closeLyrics() {
             <ul class="space-y-4 w-full">
                 <li v-for="track in tracks" :key="track.id"
                     class="bg-gray-800 text-white rounded-lg px-4 py-2 shadow-md hover:bg-gray-700 cursor-pointer flex items-center justify-between">
-                    <span>{{ track.title }}</span>
+                    <span>{{ track.id + '. ' + track.title + ' ' + `(${track.duration})` }}</span>
                     <Button @click="toggleLyrics(track.title)" icon="pi pi-align-justify" label="Текст" />
                 </li>
             </ul>
