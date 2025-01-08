@@ -1,9 +1,9 @@
 export interface Artist {
   id: number
   nickname: string
-  fistName: string
+  firstName: string
   lastName: string
-  bornDate: string
+  bornDate?: string
   biography: string
   pictureUrl: string
   city: string

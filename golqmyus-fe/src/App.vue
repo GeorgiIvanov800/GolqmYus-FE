@@ -9,7 +9,7 @@ import { Toast } from 'primevue';
 
   <div class="flex flex-col min-h-screen">
     <HeaderComponent />
-    <main class="flex-1 pt-[60px] flex flex-col items-center justify-start">
+    <main class="flex-1 pt-[60px] flex flex-col items-center justify-center overflow-auto">
       <RouterView />
     </main>
     <FooterComponent />
