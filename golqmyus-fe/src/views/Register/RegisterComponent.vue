@@ -7,6 +7,7 @@ import { InputText, Message, Button } from 'primevue'
 import { Form, FormField, type FormSubmitEvent } from '@primevue/forms';
 import Password from 'primevue/password';
 import type { UserRegister } from './Types/UserRegister';
+import { registerUser } from '@/services/userService';
 
 
 const toast = useToast();
@@ -16,7 +17,8 @@ const initialValues = reactive<UserRegister>({
     password: "",
     firstName: "",
     lastName: "",
-    userName: "",
+    username: "",
+    imageUrl: "",
 });
 
 const resolver = zodResolver(
@@ -25,9 +27,10 @@ const resolver = zodResolver(
             email: z.string().email("Invalid email address."),
             firstName: z.string().min(1, "First Name is required."),
             lastName: z.string().min(1, "Last Name is required."),
-            userName: z.string().min(1, "Username is required."),
+            username: z.string().min(1, "Username is required."),
             password: z.string().min(6, "Password must be at least 6 characters."),
             confirmPassword: z.string().min(6, "Confirm Password is required."),
+            imageUrl: z.string().url("Invalid URL for profile picture.").optional(),
         })
         .refine((data) => data.password === data.confirmPassword, {
             message: "Passwords must match.",
@@ -35,15 +38,29 @@ const resolver = zodResolver(
         })
 );
 
-const onFormSubmit = (event: FormSubmitEvent) => {
+const onFormSubmit = async (event: FormSubmitEvent) => {
     const values = event.values as UserRegister;
+    console.log(values);
+    const { confirmPassword, ...userData } = values;
+    console.log("Form submitted:", userData);
 
-    console.log("Form submitted:", values);
-    toast.add({
-        severity: "success",
-        summary: "Success",
-        detail: "User registered successfully!",
-    });
+    try {
+        await registerUser(userData);
+        toast.add({
+            severity: "success",
+            summary: "Success",
+            detail: "User registered successfully!",
+        });
+    } catch (error) {
+        toast.add({
+            severity: "error",
+            summary: "Error",
+            detail: "Failed to register user.",
+        });
+    }
+
+
+
 };
 </script>
 
@@ -83,13 +100,19 @@ const onFormSubmit = (event: FormSubmitEvent) => {
                 </FormField>
 
                 <!-- Username -->
-                <FormField v-slot="$field" name="userName" class="flex flex-col gap-1">
-                    <label for="userName" class="text-[#000000] font-semibold">Username</label>
+                <FormField v-slot="$field" name="username" class="flex flex-col gap-1">
+                    <label for="username" class="text-[#000000] font-semibold">Username</label>
                     <InputText id="userName" type="text" placeholder="Enter your username" v-model="$field.value"
                         class="!bg-white/80 !border-0 !p-3 !text-primary-50 w-full" />
                     <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
                         {{ $field.error?.message }}
                     </Message>
+                </FormField>
+                <!-- ImageUrl -->
+                <FormField v-slot="$field" name="imageUrl" class="flex flex-col gap-1">
+                    <label for="imageUrl" class="text-[#000000] font-semibold">Profile Picture (Optional) </label>
+                    <InputText id="imageUrl" type="text" placeholder="Enter the URL path " v-model="$field.value"
+                        class="!bg-white/80 !border-0 !p-3 !text-primary-50 w-full" />
                 </FormField>
 
                 <!-- Password -->

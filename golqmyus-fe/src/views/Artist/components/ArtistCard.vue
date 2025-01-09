@@ -10,8 +10,8 @@ const props = defineProps<Artist>();
 </script>
 
 <template>
-
-    <Card style="width: 20rem; overflow: hidden">
+    <Card style="width: 20rem; overflow: hidden"
+        class="bg-gray-800 text-white rounded-lg border border-gray-700 shadow-lg">
         <template #header>
             <img alt="user header" :src="pictureUrl" />
         </template>
@@ -25,5 +25,4 @@ const props = defineProps<Artist>();
             </div>
         </template>
     </Card>
-
 </template>

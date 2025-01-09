@@ -27,6 +27,8 @@ onMounted(async () => {
 <template>
 
     <div class="flex flex-wrap gap-6 justify-center items-center max-h-full">
+        <LoaderComponent v-if="isLoading" />
+
         <ArtistCard v-for="artist in artists" :key="artist.id" v-bind="artist" />
     </div>
 
