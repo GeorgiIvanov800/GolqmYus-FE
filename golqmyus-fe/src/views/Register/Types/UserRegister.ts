@@ -1,7 +1,9 @@
 export interface UserRegister {
   email: string
   password: string
+  confirmPassword?: string
   firstName: string
   lastName: string
-  userName: string
+  username: string
+  imageUrl?: string
 }
