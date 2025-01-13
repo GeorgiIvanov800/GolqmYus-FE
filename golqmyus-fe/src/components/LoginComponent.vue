@@ -4,9 +4,11 @@ import { Button, Dialog, InputText, useToast } from 'primevue';
 import { useUserStore } from '@/stores/userStore';
 import type { LoginRequest } from '@/types/auth';
 import { loginUser } from '@/services/userService';
-
+import LoaderComponent from './LoaderComponent.vue';
 
 const visible = ref(false);
+const isLoading = ref(true);
+
 const loginValues = ref<LoginRequest>({
     username: '',
     password: '',
@@ -35,6 +37,8 @@ const onLogin = async () => {
             summary: "Грешка",
             detail: "Грешно име или парола",
         });
+        loginValues.value.username = '';
+        loginValues.value.password = '';
     };
 };
 </script>
@@ -42,7 +46,6 @@ const onLogin = async () => {
 <template>
     <div class="card flex justify-center">
         <Button label="Влез/Регистрация" icon="pi pi-user" @click="visible = true" />
-
         <Dialog v-model:visible="visible" pt:root:class="!border-0 !bg-transparent" pt:mask:class="backdrop-blur-sm"
             closeOnEscape :dismissableMask="true" :modal="true">
             <template #container="{ closeCallback }">
