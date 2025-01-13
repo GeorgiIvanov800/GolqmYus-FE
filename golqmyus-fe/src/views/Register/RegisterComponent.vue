@@ -2,16 +2,15 @@
 import { useToast } from 'primevue';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { z } from 'zod';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { InputText, Message, Button } from 'primevue'
 import { Form, FormField, type FormSubmitEvent } from '@primevue/forms';
 import Password from 'primevue/password';
 import type { UserRegister } from './Types/UserRegister';
-import { registerUser } from '@/services/userService';
-
+import { checkUsername, registerUser } from '@/services/userService';
 
 const toast = useToast();
-
+const isUsernameAvailable = ref<boolean | null>(null);
 const initialValues = reactive<UserRegister>({
     email: "",
     password: "",
@@ -40,10 +39,7 @@ const resolver = zodResolver(
 
 const onFormSubmit = async (event: FormSubmitEvent) => {
     const values = event.values as UserRegister;
-    console.log(values);
     const { confirmPassword, ...userData } = values;
-    console.log("Form submitted:", userData);
-
     try {
         await registerUser(userData);
         toast.add({
@@ -58,10 +54,27 @@ const onFormSubmit = async (event: FormSubmitEvent) => {
             detail: "Failed to register user.",
         });
     }
-
-
-
 };
+//TODO: Check the Email too
+const onCheckUsername = async () => {
+
+    const username: string = initialValues.username;
+
+    if (!username) return;
+
+    try {
+        const isAvailable = await checkUsername(username);
+        if (isAvailable) {
+            isUsernameAvailable.value = false;
+            console.log(isUsernameAvailable.value)
+        } else {
+            isUsernameAvailable.value = true;
+            console.log(isUsernameAvailable.value)
+        }
+    } catch (error: unknown) {
+        console.log("UserName Validation Check FAILED!!!")
+    }
+}
 </script>
 
 <template>
@@ -101,7 +114,7 @@ const onFormSubmit = async (event: FormSubmitEvent) => {
 
                 <!-- Username -->
                 <FormField v-slot="$field" name="username" class="flex flex-col gap-1">
-                    <label for="username" class="text-[#000000] font-semibold">Username</label>
+                    <label for="username" class="text-[#000000] font-semibold" @blur="onCheckUsername">Username</label>
                     <InputText id="userName" type="text" placeholder="Enter your username" v-model="$field.value"
                         class="!bg-white/80 !border-0 !p-3 !text-primary-50 w-full" />
                     <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
