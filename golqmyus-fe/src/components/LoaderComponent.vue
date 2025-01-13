@@ -25,6 +25,7 @@
     height: 100px;
     border-radius: 50%;
     background: transparent;
+    z-index: 1250;
 }
 
 .logo-svg {

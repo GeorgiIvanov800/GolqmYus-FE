@@ -5,9 +5,10 @@ import { useUserStore } from '@/stores/userStore';
 import type { LoginRequest } from '@/types/auth';
 import { loginUser } from '@/services/userService';
 import LoaderComponent from './LoaderComponent.vue';
+import { useLoaderStore } from '@/stores/loaderStore';
 
-const visible = ref(false);
-const isLoading = ref(true);
+const visible = ref(true);
+const loader = useLoaderStore();
 
 const loginValues = ref<LoginRequest>({
     username: '',
@@ -18,7 +19,7 @@ const toast = useToast();
 const userStore = useUserStore();
 
 const onLogin = async () => {
-
+    loader.showLoader();
     try {
         const response = await loginUser(loginValues.value);
 
@@ -29,7 +30,9 @@ const onLogin = async () => {
             summary: "Успешно Влизане",
             detail: `Добре Дошъл ${response.username}`,
         });
+
         visible.value = false;
+        loader.hideLoader();
     } catch (error: unknown) {
 
         toast.add({
@@ -37,8 +40,10 @@ const onLogin = async () => {
             summary: "Грешка",
             detail: "Грешно име или парола",
         });
+
         loginValues.value.username = '';
         loginValues.value.password = '';
+        loader.hideLoader();
     };
 };
 </script>
@@ -83,3 +88,5 @@ const onLogin = async () => {
         </Dialog>
     </div>
 </template>
+
+<style scoped></style>
