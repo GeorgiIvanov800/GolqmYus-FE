@@ -4,6 +4,8 @@ import RegisterComponent from '@/views/Register/RegisterComponent.vue'
 import AlbumView from '@/views/Albums/components/AlbumView.vue'
 import SingleAlbumView from '@/views/Albums/components/SingleAlbumView.vue'
 import ArtistView from '@/views/Artist/ArtistView.vue'
+import QuizView from '@/views/Quiz/QuizView.vue'
+import QuestionComponent from '@/views/Quiz/components/QuestionComponent.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +23,7 @@ const router = createRouter({
       children: [{ path: ':id', name: 'singleAlbum', component: SingleAlbumView }],
     },
     { path: '/artists', name: 'artists', component: ArtistView },
+    { path: '/quiz', name: 'quiz', component: QuizView },
   ],
 })
 

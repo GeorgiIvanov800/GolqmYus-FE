@@ -7,7 +7,7 @@ import { loginUser } from '@/services/userService';
 import LoaderComponent from './LoaderComponent.vue';
 import { useLoaderStore } from '@/stores/loaderStore';
 
-const visible = ref(true);
+const visible = ref(false);
 const loader = useLoaderStore();
 
 const loginValues = ref<LoginRequest>({
