@@ -9,7 +9,7 @@ import { Button } from 'primevue';
 import { useTimer } from './composables/useTimer';
 import { useLoaderStore } from '@/stores/loaderStore';
 
-const TIME_FOR_ANSWER: number = 5;
+const TIME_FOR_ANSWER: number = 3;
 
 const { isTimeUp, start, timePercentage } = useTimer();
 const loader = useLoaderStore();
@@ -44,10 +44,9 @@ const handleAnswer = (answer: string) => {
 
     currentQuestionIndex.value++;
 
-    if (currentQuestionIndex.value < questions.value.length) {
-        start(TIME_FOR_ANSWER);
-    }
-    console.log('Score: ', score);
+
+    start(TIME_FOR_ANSWER);
+
 }
 
 watch(isTimeUp, (newVal) => {
