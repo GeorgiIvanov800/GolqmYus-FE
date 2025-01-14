@@ -22,8 +22,8 @@ const onLogin = async () => {
     loader.showLoader();
     try {
         const response = await loginUser(loginValues.value);
-
-        userStore.login(response.token, response.username);
+        console.log(response);
+        userStore.login(response.token, response.username, response.imgUrl);
 
         toast.add({
             severity: "success",
