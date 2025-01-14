@@ -24,9 +24,5 @@ export function useTimer() {
     }, 1000)
   }
 
-  const stop = () => {
-    clearInterval(timeInterval)
-  }
-
-  return { timeLeft, isTimeUp, start, stop, timePercentage }
+  return { timeLeft, isTimeUp, start, timePercentage }
 }

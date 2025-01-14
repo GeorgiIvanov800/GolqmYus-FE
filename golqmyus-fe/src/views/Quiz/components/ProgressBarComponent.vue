@@ -1,16 +1,13 @@
 <script setup lang="ts">
 
-defineProps({
-    progress: {
-        type: Number,
-        required: true
-    }
-});
+const props = defineProps<{
+    progress: number;
+}>();
 </script>
 
 <template>
     <div class="progress-bar-container">
-        <div class="progress-bar" :style="{ width: progress + '%' }"></div>
+        <div class="progress-bar" :style="{ width: props.progress + '%' }"></div>
     </div>
 </template>
 
