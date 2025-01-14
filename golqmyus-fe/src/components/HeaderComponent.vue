@@ -9,7 +9,7 @@ const router = useRouter();
 const menuItems = [
     { label: 'Начало', icon: 'pi pi-home custom-icon', command: () => router.push('/') },
     { label: 'Албуми', icon: 'pi pi-headphones custom-icon', command: () => router.push('/albums') },
-    { label: 'Турнета', icon: 'pi pi-calendar custom-icon', },
+    { label: 'Quiz', icon: 'pi pi-calendar custom-icon', command: () => router.push('/quiz') },
     { label: 'Изпълнители', icon: 'pi pi-prime custom-icon', command: () => router.push('/artists') },
     { label: 'За нас', icon: 'pi pi-info-circle custom-icon', },
 ];
