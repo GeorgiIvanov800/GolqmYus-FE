@@ -70,9 +70,9 @@ function closeLyrics() {
 
 
             <ul class="space-y-4 w-full">
-                <li v-for="track in tracks" :key="track.id"
+                <li v-for="(track, index) in tracks" :key="track.id"
                     class="bg-gray-800 text-white rounded-lg px-4 py-2 shadow-md hover:bg-gray-700 cursor-pointer flex items-center justify-between">
-                    <span>{{ track.id + '. ' + track.title + ' ' + `(${track.duration})` }}</span>
+                    <span>{{ (index + 1) + '. ' + track.title + ' ' + `(${track.duration})` }}</span>
                     <Button @click="toggleLyrics(track.title)" icon="pi pi-align-justify" label="Текст" />
                 </li>
             </ul>
