@@ -5,20 +5,20 @@ import { onMounted, ref } from 'vue';
 import type { Artist } from './types/Artist';
 import { getAllArtists } from '@/services/artistAPI';
 import { logger } from '@/utils/logger';
+import { useLoaderStore } from '@/stores/loaderStore';
 
-
+const loaderStore = useLoaderStore();
 const artists = ref<Artist[]>();
-const isLoading = ref<Boolean>(true);
+
 
 onMounted(async () => {
     try {
-        isLoading.value = true;
+        loaderStore.showLoader();
         artists.value = await getAllArtists();
-        console.log(artists.value);
+        loaderStore.hideLoader();
     } catch (err) {
+        loaderStore.hideLoader();
         logger.log(err);
-    } finally {
-        isLoading.value = false;
     }
 })
 
@@ -27,10 +27,6 @@ onMounted(async () => {
 <template>
 
     <div class="flex flex-wrap gap-6 justify-center items-center max-h-full">
-        <LoaderComponent v-if="isLoading" />
-
         <ArtistCard v-for="artist in artists" :key="artist.id" v-bind="artist" />
     </div>
-
-
 </template>

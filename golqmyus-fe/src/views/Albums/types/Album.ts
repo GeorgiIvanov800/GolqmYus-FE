@@ -1,5 +1,5 @@
 export interface Album {
-  id: string
+  id: string | number
   title: string
   releaseDate: string
   genre: string

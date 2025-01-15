@@ -17,7 +17,7 @@ const router = createRouter({
     },
     { path: '/register', name: 'register', component: RegisterComponent },
     {
-      path: '/albums',
+      path: '/albums/:artistId?',
       name: 'albums',
       component: AlbumView,
       children: [{ path: ':id', name: 'singleAlbum', component: SingleAlbumView }],

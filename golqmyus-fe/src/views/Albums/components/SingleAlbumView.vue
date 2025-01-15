@@ -1,41 +1,33 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { Button } from 'primevue';
-import { onMounted, ref } from 'vue';
+import { Button, Panel } from 'primevue';
+import { computed, onMounted, ref } from 'vue';
 import type { Track } from '../types/Track';
-import apiClient from '@/config/axios';
 import type { Album } from '../types/Album';
 import LyricsView from './LyricsView.vue';
+import { fetchAlbumAndTracks } from '@/services/albumService';
+import { logger } from '@/utils/logger';
+import { useLoaderStore } from '@/stores/loaderStore';
 
-
+const loaderStore = useLoaderStore();
 const tracks = ref<Track[]>();
 const album = ref<Album>();
-
 const route = useRoute();
 const albumId = Number(route.params.id);
-
-onMounted(() => {
-    fetchAlbumAndTracks();
-})
-
-const fetchAlbumAndTracks = async () => {
-    try {
-        const [albumResponse, tracksResponse] = await Promise.all([
-            apiClient.get(`/albums/${albumId}`),
-            apiClient.get(`/albums/${albumId}/tracks`)
-        ]);
-        album.value = albumResponse.data;
-        tracks.value = tracksResponse.data;
-        console.log(tracks.value);
-    } catch (error) {
-        console.error('Error fetching album or tracks:', error);
-    }
-}
-
 const showLyrics = ref(false);
 const selectedLyrics = ref<string>('');
 
-
+onMounted(async () => {
+    try {
+        loaderStore.showLoader();
+        const data = await fetchAlbumAndTracks(albumId);
+        album.value = data.album;
+        tracks.value = data.tracks;
+        loaderStore.hideLoader();
+    } catch (error) {
+        logger.log(error);
+    }
+})
 
 function toggleLyrics(trackTitle: string) {
     const track = tracks.value?.find(t => t.title === trackTitle);
@@ -69,13 +61,18 @@ function closeLyrics() {
             </div>
 
 
-            <ul class="space-y-4 w-full">
+            <ul v-if="tracks" class="space-y-4 w-full">
                 <li v-for="(track, index) in tracks" :key="track.id"
                     class="bg-gray-800 text-white rounded-lg px-4 py-2 shadow-md hover:bg-gray-700 cursor-pointer flex items-center justify-between">
                     <span>{{ (index + 1) + '. ' + track.title + ' ' + `(${track.duration})` }}</span>
                     <Button @click="toggleLyrics(track.title)" icon="pi pi-align-justify" label="Текст" />
                 </li>
             </ul>
+            <Panel header="Песни">
+                <p class="m-0">
+                    {{ album?.description }}
+                </p>
+            </Panel>
         </div>
     </div>
 
