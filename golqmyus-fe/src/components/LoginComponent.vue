@@ -22,7 +22,7 @@ const onLogin = async () => {
     loader.showLoader();
     try {
         const response = await loginUser(loginValues.value);
-        console.log(response);
+
         userStore.login(response.token, response.username, response.imgUrl);
 
         toast.add({

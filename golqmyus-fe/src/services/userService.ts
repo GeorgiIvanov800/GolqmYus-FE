@@ -38,3 +38,15 @@ export const checkUsername = async (username: string): Promise<boolean> => {
     throw new Error()
   }
 }
+
+export const checkEmail = async (email: string): Promise<boolean> => {
+  try {
+    const response = await apiClient.get<boolean>('users/check-email', {
+      params: { email },
+    })
+    return response.data
+  } catch (error: unknown) {
+    logger.error(error)
+    throw new Error()
+  }
+}
