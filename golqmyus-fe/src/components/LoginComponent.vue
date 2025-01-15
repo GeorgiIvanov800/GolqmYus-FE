@@ -23,7 +23,7 @@ const onLogin = async () => {
     try {
         const response = await loginUser(loginValues.value);
 
-        userStore.login(response.token, response.username);
+        userStore.login(response.token, response.username, response.imgUrl);
 
         toast.add({
             severity: "success",
