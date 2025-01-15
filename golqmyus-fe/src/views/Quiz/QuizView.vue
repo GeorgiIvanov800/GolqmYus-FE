@@ -73,6 +73,9 @@ watch(isTimeUp, (newVal) => {
         <div v-if="quizStarted && currentQuestionIndex >= questions.length">
             <h1 class="text-xl font-semibold text-center mt-6">Верни отговори</h1>
             <p class="text-center mt-4">{{ score }}</p>
+            <router-link to="/" class="text-blue-400 underline hover:text-blue-200">
+                Върни се в началото
+            </router-link>
         </div>
     </div>
 </template>
