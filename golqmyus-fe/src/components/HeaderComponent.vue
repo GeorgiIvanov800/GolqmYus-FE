@@ -16,7 +16,7 @@ const menuItems = [
     { label: 'Албуми', icon: 'pi pi-headphones custom-icon', command: () => router.push('/albums') },
     { label: 'Quiz', icon: 'pi pi-calendar custom-icon', command: () => router.push('/quiz') },
     { label: 'Изпълнители', icon: 'pi pi-prime custom-icon', command: () => router.push('/artists') },
-    { label: 'За нас', icon: 'pi pi-info-circle custom-icon', },
+    { label: 'За нас', icon: 'pi pi-info-circle custom-icon', command: () => router.push('/about') },
 ];
 
 const avatarMenuItems = [

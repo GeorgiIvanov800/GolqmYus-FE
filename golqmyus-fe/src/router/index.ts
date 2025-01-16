@@ -7,6 +7,7 @@ import ArtistView from '@/views/Artist/ArtistView.vue'
 import QuizView from '@/views/Quiz/QuizView.vue'
 import { useUserStore } from '@/stores/userStore'
 import { useToast } from 'primevue'
+import AboutView from '@/views/AboutView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +17,7 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
     },
+    { path: '/about', name: 'about', component: AboutView },
     { path: '/register', name: 'register', component: RegisterComponent },
     {
       path: '/albums/:artistId?',

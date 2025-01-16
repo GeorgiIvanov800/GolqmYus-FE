@@ -4,10 +4,9 @@ import type { Artist } from '../types/Artist';
 import { useRoute } from 'vue-router';
 
 
-
 const props = defineProps<Artist>();
 const router = useRoute();
-console.log(props.socialMediaLinks);
+
 const getIconPath = (platform: string) => {
     try {
         if (platform.toLowerCase() === 'official website') {
