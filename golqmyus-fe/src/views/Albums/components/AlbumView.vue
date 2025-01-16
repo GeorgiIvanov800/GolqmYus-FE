@@ -4,25 +4,21 @@ import { useRoute, useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import type { Album } from '../types/Album';
 import { fetchAlbums } from '@/services/albumService';
-import { logger } from '@/utils/logger';
+import { useLoaderStore } from '@/stores/loaderStore';
+
 
 const albums = ref<Album[]>([]);
 const router = useRouter();
 const route = useRoute();
-
-// onMounted(async () => {
-//     try {
-//         albums.value = await fetchAlbums();
-//     } catch (error) {
-//         logger.log(error);
-//     }
-// })
+const loaderStore = useLoaderStore();
 
 
 const fetchAlbumsForRoute = async () => {
-    const artistId = route.params.artistId as string | undefined; // Get artistId from route parameters
+    const artistId = route.params.artistId as string | undefined;
     try {
-        albums.value = await fetchAlbums(artistId); // Pass artistId to fetchAlbums if available
+        loaderStore.showLoader();
+        albums.value = await fetchAlbums(artistId);
+        loaderStore.hideLoader();
     } catch (error) {
         console.error('Error fetching albums:', error);
     }
