@@ -10,7 +10,6 @@ import { ref } from 'vue';
 
 const router = useRouter();
 const userStore = useUserStore();
-const isUserLogged: boolean = userStore.isAuthenticated;
 const avatarMenu = ref<MenuType | null>(null)
 const menuItems = [
     { label: 'Начало', icon: 'pi pi-home custom-icon', command: () => router.push('/') },

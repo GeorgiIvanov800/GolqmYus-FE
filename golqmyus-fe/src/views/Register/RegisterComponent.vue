@@ -80,6 +80,7 @@ const onFormSubmit = async (event: FormSubmitEvent) => {
             severity: "success",
             summary: "Успешно",
             detail: "Успешна регистрация",
+            life: 3000,
         });
 
         // Login the user after succseful register
@@ -102,6 +103,7 @@ const onFormSubmit = async (event: FormSubmitEvent) => {
             severity: "error",
             summary: "Грешка",
             detail: "Нещо се прецака опитайте отново",
+            life: 3000,
         });
     }
 };
