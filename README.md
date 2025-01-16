@@ -29,6 +29,8 @@ UI Components: PrimeVue
 
 Backend
 
-Framework: Java/Spring
+Framework: Spring
+
+Language: Java
 
 Database: PostgreSQL
