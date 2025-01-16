@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from 'vue';
-import type { Question } from '../types/QuizTypes'; // Import the types
+import type { Question } from '../types/QuizTypes';
 import { RadioButton, Button } from 'primevue';
 
 

@@ -1,28 +1,34 @@
 <script setup lang="ts">
 import AlbumCoverView from './AlbumCoverView.vue';
-import { useRouter } from 'vue-router';
-import apiClient from '@/config/axios';
+import { useRoute, useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import type { Album } from '../types/Album';
+import { fetchAlbums } from '@/services/albumService';
+import { useLoaderStore } from '@/stores/loaderStore';
+
 
 const albums = ref<Album[]>([]);
 const router = useRouter();
+const route = useRoute();
+const loaderStore = useLoaderStore();
 
-onMounted(() => {
-    fetchAlbums();
-})
+
+const fetchAlbumsForRoute = async () => {
+    const artistId = route.params.artistId as string | undefined;
+    try {
+        loaderStore.showLoader();
+        albums.value = await fetchAlbums(artistId);
+        loaderStore.hideLoader();
+    } catch (error) {
+        console.error('Error fetching albums:', error);
+    }
+};
+
+onMounted(fetchAlbumsForRoute);
 const handleAlbumSelect = (albumId: string) => {
     router.push(`/albums/${albumId}`);
 }
 
-const fetchAlbums = async () => {
-    try {
-        const response = await apiClient.get<Album[]>('/albums');
-        albums.value = response.data;
-    } catch (error) {
-        console.log(error);
-    }
-}
 </script>
 
 <template>
