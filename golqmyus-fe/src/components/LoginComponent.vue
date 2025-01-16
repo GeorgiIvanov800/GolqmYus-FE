@@ -29,6 +29,7 @@ const onLogin = async () => {
             severity: "success",
             summary: "Успешно Влизане",
             detail: `Добре Дошъл ${response.username}`,
+            life: 3000,
         });
 
         visible.value = false;
@@ -39,6 +40,7 @@ const onLogin = async () => {
             severity: "error",
             summary: "Грешка",
             detail: "Грешно име или парола",
+            life: 3000,
         });
 
         loginValues.value.username = '';
