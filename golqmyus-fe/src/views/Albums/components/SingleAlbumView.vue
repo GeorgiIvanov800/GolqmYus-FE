@@ -83,7 +83,6 @@ function closeLyrics() {
 <style scoped>
 :deep(.p-scrollpanel-bar.p-scrollpanel-bar-y) {
     background-color: #ffffff !important;
-    /* Force the background color to white */
 }
 
 .lyrics-container {

@@ -26,7 +26,7 @@ onMounted(async () => {
 
 <template>
 
-    <div class="flex flex-wrap gap-6 justify-center items-center max-h-full">
+    <div class="flex flex-wrap gap-28 justify-center items-center max-h-full">
         <ArtistCard v-for="artist in artists" :key="artist.id" v-bind="artist" />
     </div>
 </template>

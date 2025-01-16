@@ -9,7 +9,7 @@ import { Button } from 'primevue';
 import { useTimer } from './composables/useTimer';
 import { useLoaderStore } from '@/stores/loaderStore';
 
-const TIME_FOR_ANSWER: number = 5;
+const TIME_FOR_ANSWER: number = 7;
 
 const { isTimeUp, start, timePercentage } = useTimer();
 const loader = useLoaderStore();

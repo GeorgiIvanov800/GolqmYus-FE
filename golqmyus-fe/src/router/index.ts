@@ -5,7 +5,6 @@ import AlbumView from '@/views/Albums/components/AlbumView.vue'
 import SingleAlbumView from '@/views/Albums/components/SingleAlbumView.vue'
 import ArtistView from '@/views/Artist/ArtistView.vue'
 import QuizView from '@/views/Quiz/QuizView.vue'
-import QuestionComponent from '@/views/Quiz/components/QuestionComponent.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
